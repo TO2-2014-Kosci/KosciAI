@@ -1,10 +1,23 @@
 import java.util.ArrayList;
 
 
-public abstract class DiceGame {
-	protected byte[] dice = null;
+public abstract class DiceBot {
 	
-	public abstract boolean[] play();
+	//lista wszystkich opcji
+	protected ArrayList<boolean[]> options = null;
+	
+	//kosci bota
+	protected int[] dice = null;
+	
+	//wynik, potrzebny do odmian NPlus, NMul
+	protected int score;
+	
+	//wykonanie ruchu, w argumencie dostaje aktualne kosci
+	public abstract boolean[] makeMove(int[] dice);
+	
+	public void setScore(int score){
+		this.score = score;
+	}
 	
 	//inicjacja listy wszystkich opcji
 	public ArrayList<boolean[]> initList(){
