@@ -5,13 +5,32 @@ public class TestKAI {
 		testkai.test();
 	}
 	
+
+	public void test(){
+		BotFactory fabrykaBotow = new BotFactory();
+		
+		DiceBot botNPlusEasy = fabrykaBotow.createBot(0, 0);
+		DiceBot botNPlusHard = fabrykaBotow.createBot(0, 1);
+		DiceBot botNMulEasy = fabrykaBotow.createBot(1, 0);
+		DiceBot botNMulHard = fabrykaBotow.createBot(1, 1);
+		DiceBot botPokerEasy = fabrykaBotow.createBot(2, 1);
+		
+		int[] dice = new int[]{6, 6, 6, 6, 1};
+		
+		botNPlusHard.setScore(30);
+		botNPlusHard.makeMove(dice);
+		
+		botNPlusEasy.setScore(30);
+		botNPlusEasy.makeMove(dice);
+	}
+	/*
 	public boolean testNplus(){
 	
 		boolean[] expectedOption = new boolean[]{false, false, false, true, true};
 		boolean[] option;
 		int plusScore = 30;
 		byte[] plusDice = new byte[]{6, 6, 6, 1, 1};
-		Nplus nplus = new Nplus(plusScore, plusDice);
+		NPlus nplus = new NPLus(plusScore, plusDice);
 		option = nplus.play();
 		
 		nplus.optionToString(expectedOption);
@@ -171,37 +190,6 @@ public class TestKAI {
 		return true;
 		
 	}
+	*/
 	
-	public void test(){
-		
-		/*
-		
-		int plusScore = 10;
-		byte[] plusDice = new byte[]{1, 2, 3, 4, 5};
-		Nplus nplus = new Nplus(plusScore, plusDice);
-		nplus.play();
-		
-		
-		int mulScore = 30;
-		byte[] mulDice = new byte[]{3, 5, 6, 4, 4};
-		Nmul nmul = new Nmul(mulScore, mulDice);
-		nmul.play();
-		
-		
-		byte[] pokerDice = new byte[]{4, 5, 6, 2, 1};
-		Poker poker = new Poker(pokerDice);
-		poker.play();
-		*/
-		
-		System.out.println(testNplus());
-		System.out.println(testNmul());
-		System.out.println(testPokerPoker());
-		System.out.println(testPokerFull());
-		System.out.println(testPokerStrit());
-		System.out.println(testPokerFour());
-		System.out.println(testPokerThree());
-		System.out.println(testPokerTwoPairs());
-		System.out.println(testPokerPair());
-		System.out.println(testPokerNothing());
-	}
 }
