@@ -30,7 +30,7 @@ public class NPlusEasy extends NPlus{
 		int target;				//jaka sume trzeba trafic pozostalymi koscmi
 		int dicesToThrow = 0;
 		int allThrows;
-		int currTraf;
+		int currMatches;
 		
 		
 		for(int i = 0; i < options.size(); i++){  //petla po wszystkich opcjach
@@ -49,7 +49,7 @@ public class NPlusEasy extends NPlus{
 			
 			//zapisanie do zmiennej traf ilosc trafien wyniku
 			countMatches(dicesToThrow, 0, target);
-			currTraf = NPlusEasy.matches;
+			currMatches = NPlusEasy.matches;
 			NPlusEasy.matches = 0;
 			
 			//wyliczenia ilosci wszystkich rzutow dla danej opcji
@@ -59,7 +59,7 @@ public class NPlusEasy extends NPlus{
 			}
 			
 			//obliczenie prawdopodobienstwa, i dodanie go do mapy
-			prob = (1.0 * currTraf) /allThrows;
+			prob = (1.0 * currMatches) /allThrows;
 			
 			map.put(options.get(i), prob);
 		}
@@ -68,10 +68,10 @@ public class NPlusEasy extends NPlus{
 		sorted_map.putAll(map);
 		
 		Random generator = new Random();
-		int chose = generator.nextInt(5);
-		Iterator iterator = sorted_map.keySet().iterator();
+		int index = generator.nextInt(5);
+		Iterator<boolean[]> iterator = sorted_map.keySet().iterator();
 		
-		for(int j = 0; j < chose; j++){
+		for(int j = 0; j < index && iterator.hasNext(); j++){
 			iterator.next();
 		}
 		option = (boolean[])iterator.next();
@@ -96,23 +96,4 @@ public class NPlusEasy extends NPlus{
 			}
 		}
 		
-		class ValueComparator implements Comparator<boolean[]> {
-
-		    Map<boolean[], Double> base;
-		    public ValueComparator(Map<boolean[], Double> base) {
-		        this.base = base;
-		    }
-
-		    // Note: this comparator imposes orderings that are inconsistent with equals.    
-		    public int compare(boolean[] a, boolean[] b) {
-		        if (base.get(a) >= base.get(b)) {
-		            return -1;
-		        } else {
-		            return 1;
-		        } // returning 0 would merge keys
-		    }
-		}
-	
-	
-	
 }

@@ -1,27 +1,61 @@
+package Kosci;
+
+import org.junit.Assert.*;
+import org.junit.Test;
 
 public class TestKAI {
-	public static void main(String[] args){
-		TestKAI testkai = new TestKAI();
-		testkai.test();
-	}
-	
-
-	public void test(){
-		BotFactory fabrykaBotow = new BotFactory();
-		
-		DiceBot botNPlusEasy = fabrykaBotow.createBot(0, 0);
-		DiceBot botNPlusHard = fabrykaBotow.createBot(0, 1);
+    
+        BotFactory fabrykaBotow = new BotFactory();
+                DiceBot botNPlusEasy = fabrykaBotow.createBot(0, 0);
+                DiceBot botNPlusHard = fabrykaBotow.createBot(0, 1);
 		DiceBot botNMulEasy = fabrykaBotow.createBot(1, 0);
 		DiceBot botNMulHard = fabrykaBotow.createBot(1, 1);
 		DiceBot botPokerEasy = fabrykaBotow.createBot(2, 1);
-		
+       
+        public TestKAI(){
+                
+        }
+        
+	public static void main(String[] args){
+		TestKAI testkai = new TestKAI();
+		testkai.testNplusHard();
+                testkai.testNmulHard();
+                testkai.testPokerEasyPair();
+                testkai.testPokerEasyThree();
+	}
+	
+        @Test
+	public void testNplusHard(){
+				
 		int[] dice = new int[]{6, 6, 6, 6, 1};
-		
-		botNPlusHard.setScore(30);
-		botNPlusHard.makeMove(dice);
-		
-		botNPlusEasy.setScore(30);
-		botNPlusEasy.makeMove(dice);
+                boolean[] results = new boolean[5];
+                botNPlusHard.setScore(30);
+		results = botNPlusHard.makeMove(dice);
+		org.junit.Assert.assertTrue(!results[0] && !results[1] && !results[2] && !results[3] && results[4]);
+	}
+        
+        @Test
+	public void testNmulHard(){
+				
+		int[] dice = new int[]{6, 6, 2, 6, 1};
+                boolean[] results = new boolean[5];
+                botNMulHard.setScore(6^5);
+		results = botNPlusHard.makeMove(dice);
+		org.junit.Assert.assertTrue(!results[0] && !results[1] && results[2] && !results[3] && results[4]);
+	}
+        
+        public void testPokerEasyPair(){
+				
+		int[] dice = new int[]{3, 6, 2, 6, 1};
+                boolean[] results = botPokerEasy.makeMove(dice);
+		org.junit.Assert.assertTrue(results[0] && !results[1] && results[2] && !results[3] && results[4]);
+	}
+        
+        public void testPokerEasyThree(){
+				
+		int[] dice = new int[]{3, 6, 6, 6, 1};
+                boolean[] results = botPokerEasy.makeMove(dice);
+		org.junit.Assert.assertTrue(results[0] && !results[1] && !results[2] && !results[3] && results[4]);
 	}
 	/*
 	public boolean testNplus(){

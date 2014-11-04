@@ -1,4 +1,8 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Random;
+import java.util.TreeMap;
 
 
 
@@ -15,6 +19,10 @@ public class NMulEasy extends NMul{
 	@Override
 	public boolean[] makeMove(int dice[]) {
 		this.dice = dice;
+		
+		HashMap<boolean[],Double> map = new HashMap<boolean[],Double>();
+        ValueComparator bvc =  new ValueComparator(map);
+        TreeMap<boolean[],Double> sorted_map = new TreeMap<boolean[],Double>(bvc);
 		
 		int mulLeft;			//iloczyn oczek zostawionych
 		double bestProb = 0;	//najlepsze prawdobodobienstwo
@@ -57,18 +65,28 @@ public class NMulEasy extends NMul{
 				//obliczenie prawdopodobienstwa, i zapisanie go jesli jest najlepsze z opcja
 				prob = (1.0 * currTraf) /allThrows;
 				
-				if(prob > bestProb){
-					bestProb = prob;
-					bestOption = option;
-				}
+				map.put(options.get(i), prob);
 			}
 		}
 		
-		System.out.println("Najlepsze prawdopodobienstwo: " +  Double.toString(bestProb));
-		System.out.println("Przy opcji: ");
-		optionToString(bestOption);
+		//posortowanie mapy boolean[]:int
+		sorted_map.putAll(map);
 		
-		return bestOption;
+		Random generator = new Random();
+		int index = generator.nextInt(5);
+		Iterator<boolean[]> iterator = sorted_map.keySet().iterator();
+		
+		for(int j = 0; j < index && iterator.hasNext(); j++){
+			iterator.next();
+		}
+		option = (boolean[])iterator.next();
+		
+		System.out.println("Wylosowane prawdopodobienstwo" + map.get(option));
+		System.out.println("Przy opcji: ");
+		optionToString(option);
+		
+		return option;
+		
 	}
 
 	

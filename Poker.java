@@ -6,7 +6,11 @@ public abstract class Poker extends DiceBot{
 	public EnumFigure.Figure figure; //aktualna figura
 
 	public EnumFigure.Figure checkFigure(int[] dice){
-		
+	
+		//zerowanie mapy oczko: powtorzenie
+		for(int i = 1; i < 7; i++){
+			countDice.put(i, 0);
+		}
 		
 		for(int i = 0; i < dice.length; i++){
 			countDice.put(dice[i], countDice.get(dice[i]) + 1);
@@ -25,11 +29,11 @@ public abstract class Poker extends DiceBot{
 			else 
 				figure = EnumFigure.Figure.THREE;
 		}
-		else if((countDice.get((byte)2) == 1) && (countDice.get((byte)3) == 1) && (countDice.get((byte)4) == 1) && (countDice.get((byte)5) == 1)){
+		else if((countDice.get(2) == 1) && (countDice.get(3) == 1) && (countDice.get(4) == 1) && (countDice.get(5) == 1)){
 			figure = EnumFigure.Figure.STRIT;
 		}else{
 			int repeat = 0; 
-			for(byte i = 1; i < 7; i++){
+			for(int i = 1; i < 7; i++){
 				if (countDice.get(i) == 2)
 					repeat++;
 			}
