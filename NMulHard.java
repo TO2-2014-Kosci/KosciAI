@@ -7,12 +7,13 @@ public class NMulHard extends NMul{
 
 	private static int matches = 0; //ilosc trafien w danym wyborze
 
-	public NMulHard(){
+	public NMulHard(int moveTime){
 		options = initList();
+		this.moveTime = moveTime;
 	}
 
 	@Override
-	public boolean[] makeMove(int dice[]) {
+	public boolean[] makeMove(int dice[], ArrayList<int[]> otherDice) {
 		this.dice = dice;
 		
 		int mulLeft;			//iloczyn oczek zostawionych

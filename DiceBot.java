@@ -11,10 +11,14 @@ public abstract class DiceBot {
 	//kosci bota
 	protected int[] dice = null;
 	
+	//kosci innych graczy
+	protected ArrayList<int[]> otherDice = null;
+	
+	//czas na wykonanie ruchu
+	protected int moveTime;
+	
 	//wykonanie ruchu, w argumencie dostaje aktualne kosci
-	public abstract boolean[] makeMove(int[] dice);
-	
-	
+	public abstract boolean[] makeMove(int[] dice, ArrayList<int[]> otherDice);
 	
 	//inicjacja listy wszystkich opcji
 	public ArrayList<boolean[]> initList(){

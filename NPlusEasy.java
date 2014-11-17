@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,13 +12,14 @@ public class NPlusEasy extends NPlus{
 
 	private static int matches = 0;
 	
-	public NPlusEasy(){
+	public NPlusEasy(int moveTime){
 		options = initList();
+		this.moveTime = moveTime;
 	}
 	
 
 	@Override
-	public boolean[] makeMove(int dice[]) {
+	public boolean[] makeMove(int dice[], ArrayList<int[]> otherDice) {
 		
 		HashMap<boolean[],Double> map = new HashMap<boolean[],Double>();
         ValueComparator bvc =  new ValueComparator(map);

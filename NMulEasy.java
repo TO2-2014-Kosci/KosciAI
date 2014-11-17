@@ -12,12 +12,13 @@ public class NMulEasy extends NMul{
 	private static int matches = 0; //ilosc trafien w danym wyborze
 
 
-	public NMulEasy(){
+	public NMulEasy(int moveTime){
 		options = initList();
+		this.moveTime = moveTime;
 	}
 
 	@Override
-	public boolean[] makeMove(int dice[]) {
+	public boolean[] makeMove(int dice[], ArrayList<int[]> otherDice) {
 		this.dice = dice;
 		
 		HashMap<boolean[],Double> map = new HashMap<boolean[],Double>();

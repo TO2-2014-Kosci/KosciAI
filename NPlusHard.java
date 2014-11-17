@@ -6,13 +6,14 @@ public class NPlusHard extends NPlus{
 
 	private static int matches = 0;
 	
-	public NPlusHard(){
+	public NPlusHard(int moveTime){
 		options = initList();
+		this.moveTime = moveTime;
 	}
 	
 
 	@Override
-	public boolean[] makeMove(int dice[]) {
+	public boolean[] makeMove(int dice[], ArrayList<int[]> otherDice) {
 		
 		this.dice = dice;
 		int sumLeft;			//suma oczek zostawionych

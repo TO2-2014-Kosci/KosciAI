@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,18 +9,15 @@ public class PokerEasy extends Poker{
 	private boolean[] option = null;
 	
 	
-	public PokerEasy(){
+	public PokerEasy(int moveTime){
 		
 		option = new boolean[5];
-		countDice = new HashMap<Integer, Integer>(){
-		{
-	        put(1,0);put(2,0);put(3,0);put(4,0);put(5,0);put(6,0);
-	    }};
+		this.moveTime = moveTime;
 	}
 	
 	
 	@Override
-	public boolean[] makeMove(int[] dice) {
+	public boolean[] makeMove(int[] dice, ArrayList<int[]> otherDice) {
 		this.dice = dice;
 		
 	    
