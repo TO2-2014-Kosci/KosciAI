@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -6,14 +6,13 @@ public class NPlusHard extends NPlus{
 
 	private static int matches = 0;
 	
-	public NPlusHard(int moveTime){
+	public NPlusHard(){
 		options = initList();
-		this.moveTime = moveTime;
 	}
 	
 
 	@Override
-	public boolean[] makeMove(int dice[], ArrayList<int[]> otherDice) {
+	public boolean[] chooseOption(int dice[], List<int[]> otherDice) {
 		
 		this.dice = dice;
 		int sumLeft;			//suma oczek zostawionych
@@ -61,8 +60,7 @@ public class NPlusHard extends NPlus{
 			}
 		}
 		
-		System.out.println("Najlepsze prawdopodobienstwo: " +  Double.toString(bestProb));
-		System.out.println("Przy opcji: ");
+		System.out.println("NPlusHard: praw. = " +  Double.toString(bestProb));
 		optionToString(bestOption);
 		
 		return bestOption;

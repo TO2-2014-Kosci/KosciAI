@@ -1,8 +1,6 @@
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
 import java.util.Random;
 import java.util.TreeMap;
 
@@ -12,14 +10,13 @@ public class NPlusEasy extends NPlus{
 
 	private static int matches = 0;
 	
-	public NPlusEasy(int moveTime){
+	public NPlusEasy(){
 		options = initList();
-		this.moveTime = moveTime;
 	}
 	
 
 	@Override
-	public boolean[] makeMove(int dice[], ArrayList<int[]> otherDice) {
+	public boolean[] chooseOption(int dice[], List<int[]> otherDice) {
 		
 		HashMap<boolean[],Double> map = new HashMap<boolean[],Double>();
         ValueComparator bvc =  new ValueComparator(map);
@@ -70,7 +67,8 @@ public class NPlusEasy extends NPlus{
 		sorted_map.putAll(map);
 		
 		Random generator = new Random();
-		int index = generator.nextInt(5);
+		int index = generator.nextInt(3);
+		
 		Iterator<boolean[]> iterator = sorted_map.keySet().iterator();
 		
 		for(int j = 0; j < index && iterator.hasNext(); j++){
@@ -78,8 +76,7 @@ public class NPlusEasy extends NPlus{
 		}
 		option = (boolean[])iterator.next();
 		
-		System.out.println("Wylosowane prawdopodobienstwo" + map.get(option));
-		System.out.println("Przy opcji: ");
+		System.out.println("NPlusEasy: praw. = " + map.get(option));
 		optionToString(option);
 		
 		return option;

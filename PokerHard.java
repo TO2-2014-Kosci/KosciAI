@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -12,13 +13,11 @@ public class PokerHard extends Poker{
 	private boolean[] option = null;
 	
 	
-	public PokerHard(int moveTime){
-		
+	public PokerHard(){
 		option = new boolean[5];
-		this.moveTime = moveTime;
 	}
 	
-	private int[] choseBestDice(ArrayList<int[]> otherDice){
+	private int[] choseBestDice(List<int[]> otherDice){
 		int[] bestDice = otherDice.get(0);
 		int[] curDice = null;
 		Figure bestFigure = checkFigure(bestDice);
@@ -237,7 +236,7 @@ public class PokerHard extends Poker{
 	}
 	
 	@Override
-	public boolean[] makeMove(int[] dice, ArrayList<int[]> otherDice) {
+	public boolean[] chooseOption(int[] dice, List<int[]> otherDice) {
 		int[] bestDice;
 		
 		this.dice = dice;

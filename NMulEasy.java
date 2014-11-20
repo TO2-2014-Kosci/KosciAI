@@ -1,6 +1,6 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import java.util.TreeMap;
 
@@ -12,13 +12,12 @@ public class NMulEasy extends NMul{
 	private static int matches = 0; //ilosc trafien w danym wyborze
 
 
-	public NMulEasy(int moveTime){
+	public NMulEasy(){
 		options = initList();
-		this.moveTime = moveTime;
 	}
 
 	@Override
-	public boolean[] makeMove(int dice[], ArrayList<int[]> otherDice) {
+	public boolean[] chooseOption(int dice[], List<int[]> otherDice) {
 		this.dice = dice;
 		
 		HashMap<boolean[],Double> map = new HashMap<boolean[],Double>();
@@ -26,8 +25,6 @@ public class NMulEasy extends NMul{
         TreeMap<boolean[],Double> sorted_map = new TreeMap<boolean[],Double>(bvc);
 		
 		int mulLeft;			//iloczyn oczek zostawionych
-		double bestProb = 0;	//najlepsze prawdobodobienstwo
-		boolean[] bestOption = new boolean[5];	//najlepsza opcja
 		double prob;
 		boolean[] option;
 		int target;				//jaka sume trzeba trafic pozostalymi koscmi
@@ -42,39 +39,39 @@ public class NMulEasy extends NMul{
 			option = options.get(i);
 			mulLeft = mulLeft(dice, option);
 			
-			if(score % mulLeft == 0){ //sprawdzam, czy przy takiej opcji jest w ogole mozliwe uzyskanie wyniku
-				target = score / mulLeft; 
 		
-				//ile kostek do przerzucenia przy danej opcji
-				dicesToThrow = 0;
-				for(int j = 0; j < option.length; j++){
-					if(option[j])
-						dicesToThrow++;
-				}
-				
-				//zapisanie do zmiennej traf ilosc trafien wyniku
-				countMatches(dicesToThrow, 1, target);
-				currTraf = NMulEasy.matches;
-				NMulEasy.matches = 0;
-				
-				//wyliczenia ilosci wszystkich rzutow dla danej opcji
-				allThrows = 1;
-				for(int j = 0; j < dicesToThrow; j++){
-					allThrows *= 6;
-				}
-				
-				//obliczenie prawdopodobienstwa, i zapisanie go jesli jest najlepsze z opcja
-				prob = (1.0 * currTraf) /allThrows;
-				
-				map.put(options.get(i), prob);
+			target = score / mulLeft; 
+	
+			//ile kostek do przerzucenia przy danej opcji
+			dicesToThrow = 0;
+			for(int j = 0; j < option.length; j++){
+				if(option[j])
+					dicesToThrow++;
 			}
+			
+			//zapisanie do zmiennej traf ilosc trafien wyniku
+			countMatches(dicesToThrow, 1, target);
+			currTraf = NMulEasy.matches;
+			NMulEasy.matches = 0;
+			
+			//wyliczenia ilosci wszystkich rzutow dla danej opcji
+			allThrows = 1;
+			for(int j = 0; j < dicesToThrow; j++){
+				allThrows *= 6;
+			}
+			
+			//obliczenie prawdopodobienstwa, i zapisanie go jesli jest najlepsze z opcja
+			prob = (1.0 * currTraf) /allThrows;
+			
+			map.put(options.get(i), prob);
+		
 		}
 		
 		//posortowanie mapy boolean[]:int
 		sorted_map.putAll(map);
 		
 		Random generator = new Random();
-		int index = generator.nextInt(5);
+		int index = generator.nextInt(1);
 		Iterator<boolean[]> iterator = sorted_map.keySet().iterator();
 		
 		for(int j = 0; j < index && iterator.hasNext(); j++){
@@ -82,16 +79,12 @@ public class NMulEasy extends NMul{
 		}
 		option = (boolean[])iterator.next();
 		
-		System.out.println("Wylosowane prawdopodobienstwo" + map.get(option));
-		System.out.println("Przy opcji: ");
+		System.out.println("NMulEasy: praw. = " + map.get(option));
 		optionToString(option);
 		
 		return option;
 		
 	}
-
-	
-	
 
 	
 	

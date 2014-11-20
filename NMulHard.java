@@ -1,19 +1,16 @@
-import java.util.ArrayList;
-
-
+import java.util.List;
 
 public class NMulHard extends NMul{
 
 
 	private static int matches = 0; //ilosc trafien w danym wyborze
 
-	public NMulHard(int moveTime){
+	public NMulHard(){
 		options = initList();
-		this.moveTime = moveTime;
 	}
 
 	@Override
-	public boolean[] makeMove(int dice[], ArrayList<int[]> otherDice) {
+	public boolean[] chooseOption(int dice[], List<int[]> otherDice) {
 		this.dice = dice;
 		
 		int mulLeft;			//iloczyn oczek zostawionych
@@ -64,8 +61,7 @@ public class NMulHard extends NMul{
 			}
 		}
 		
-		System.out.println("Najlepsze prawdopodobienstwo: " +  Double.toString(bestProb));
-		System.out.println("Przy opcji: ");
+		System.out.println("NMulHard: praw. = " +  Double.toString(bestProb));
 		optionToString(bestOption);
 		
 		return bestOption;

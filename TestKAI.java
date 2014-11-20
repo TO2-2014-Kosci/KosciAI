@@ -1,7 +1,6 @@
 
 import java.util.ArrayList;
-
-import javax.print.attribute.standard.MediaSize.Other;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -12,38 +11,55 @@ public class TestKAI {
     DiceBot botNMulEasy;
     DiceBot botNMulHard;
     DiceBot botPokerEasy;
-    public DiceBot botPokerHard;
-    public ArrayList<int[]> otherDice = new ArrayList<int[]>();
+    DiceBot botPokerHard;
+    public List<int[]> otherDice = new ArrayList<int[]>();
     
     public TestKAI(){
     	BotFactory fabrykaBotow = new BotFactory();
-        botNPlusEasy = fabrykaBotow.createBot(GameType.NPLUS, 0, 0);
-        botNPlusHard = fabrykaBotow.createBot(GameType.NPLUS, 1, 0);
-    	botNMulEasy = fabrykaBotow.createBot(GameType.NMUL, 0, 0);
-    	botNMulHard = fabrykaBotow.createBot(GameType.NMUL, 1, 0);
-    	botPokerEasy = fabrykaBotow.createBot(GameType.POKER, 0, 0);
-    	botPokerHard = fabrykaBotow.createBot(GameType.POKER, 1, 0);   
+        botNPlusEasy = fabrykaBotow.createBot(GameType.NPLUS, 0, 1);
+        botNPlusHard = fabrykaBotow.createBot(GameType.NPLUS, 1, 5);
+    	botNMulEasy = fabrykaBotow.createBot(GameType.NMUL, 0, 4);
+    	botNMulHard = fabrykaBotow.createBot(GameType.NMUL, 1, 4);
+    	botPokerEasy = fabrykaBotow.createBot(GameType.POKER, 0, 4);
+    	botPokerHard = fabrykaBotow.createBot(GameType.POKER, 1, 4);   
     }
         
+    
 	public static void main(String[] args){
 		
 		
 		TestKAI testkai = new TestKAI();
-		testkai.otherDice.add(new int[]{1, 2, 4, 5, 6});
-		testkai.otherDice.add(new int[]{1, 3, 4, 5, 6});
 		
-		
-		int[] dice = new int[]{6, 6, 6, 6, 1};
-		testkai.botPokerHard.makeMove(dice, testkai.otherDice);
-		/*
+		testkai.testNPlusEasy();
 		testkai.testNplusHard();
-        testkai.testNmulHard();
+		
+        testkai.testNmulEasy();
+		testkai.testNmulHard();
         
+		testkai.testPokerEasyNothing();
         testkai.testPokerEasyPair();
+		testkai.testPokerEasyTwoPairs();
         testkai.testPokerEasyThree();
-        */
+		testkai.testPokerEasyStrit();
+		testkai.testPokerEasyFull();
+		testkai.testPokerEasyFour();
+		testkai.testPokerEasyPoker();
 	}
 	
+    @Test
+	public void testNPlusEasy(){
+				
+		int[] dice = new int[]{1, 1, 1, 1, 1};
+        boolean[] results = new boolean[5];
+        botNPlusEasy.setScore(6);
+		results = botNPlusEasy.makeMove(dice, otherDice);
+		org.junit.Assert.assertTrue((results[0] && !results[1] && !results[2] && !results[3] && !results[4])||
+									(!results[0] && results[1] && !results[2] && !results[3] && !results[4])||
+									(!results[0] && !results[1] && results[2] && !results[3] && !results[4])||
+									(!results[0] && !results[1] && !results[2] && results[3] && !results[4])||
+									(!results[0] && !results[1] && !results[2] && !results[3] && results[4]));
+	}
+    
         @Test
 	public void testNplusHard(){
 				
@@ -55,6 +71,17 @@ public class TestKAI {
 	}
         
         @Test
+	public void testNmulEasy(){
+				
+		int[] dice = new int[]{1, 2, 1, 3, 1};
+        boolean[] results = new boolean[5];
+        botNMulEasy.setScore(36);
+		results = botNMulEasy.makeMove(dice, otherDice);
+		org.junit.Assert.assertTrue((results[0] && !results[1] && !results[2] && !results[3] && !results[4])||
+								   (!results[0] && !results[1] && results[2] && !results[3] && !results[4])||
+								   (!results[0] && !results[1] && !results[2] && !results[3] && results[4]));
+	}
+        @Test
 	public void testNmulHard(){
 				
 		int[] dice = new int[]{6, 6, 2, 6, 1};
@@ -63,13 +90,29 @@ public class TestKAI {
 		results = botNPlusHard.makeMove(dice, otherDice);
 		org.junit.Assert.assertTrue(!results[0] && !results[1] && results[2] && !results[3] && results[4]);
 	}
+        
+    
+       @Test
+    public void testPokerEasyNothing(){
+				
+		int[] dice = new int[]{3, 6, 2, 4, 1};
+        boolean[] results = botPokerEasy.makeMove(dice, otherDice);
+		org.junit.Assert.assertTrue(!results[0] && !results[1] && !results[2] && !results[3] && results[4]);
+	} 
         @Test
     public void testPokerEasyPair(){
-				
+		
 		int[] dice = new int[]{3, 6, 2, 6, 1};
         boolean[] results = botPokerEasy.makeMove(dice, otherDice);
 		org.junit.Assert.assertTrue(results[0] && !results[1] && results[2] && !results[3] && results[4]);
-	}
+	} 
+        @Test
+    public void testPokerEasyTwoPairs(){
+		
+		int[] dice = new int[]{3, 1, 2, 3, 1};
+        boolean[] results = botPokerEasy.makeMove(dice, otherDice);
+		org.junit.Assert.assertTrue(!results[0] && !results[1] && results[2] && !results[3] && !results[4]);
+	} 
         @Test
     public void testPokerEasyThree(){
 				
@@ -77,5 +120,34 @@ public class TestKAI {
         boolean[] results = botPokerEasy.makeMove(dice, otherDice);
 		org.junit.Assert.assertTrue(results[0] && !results[1] && !results[2] && !results[3] && results[4]);
 	}
-	
+        
+        @Test
+    public void testPokerEasyStrit(){
+		
+		int[] dice = new int[]{1, 2, 4, 3, 5};
+        boolean[] results = botPokerEasy.makeMove(dice, otherDice);
+		org.junit.Assert.assertTrue(!results[0] && !results[1] && !results[2] && !results[3] && !results[4]);
+	} 
+        @Test
+    public void testPokerEasyFull(){
+		
+		int[] dice = new int[]{3, 6, 3, 6, 3};
+        boolean[] results = botPokerEasy.makeMove(dice, otherDice);
+		org.junit.Assert.assertTrue(!results[0] && !results[1] && !results[2] && !results[3] && !results[4]);
+	}
+        @Test
+    public void testPokerEasyFour(){
+		
+		int[] dice = new int[]{3, 6, 6, 6, 6};
+        boolean[] results = botPokerEasy.makeMove(dice, otherDice);
+		org.junit.Assert.assertTrue(results[0] && !results[1] && !results[2] && !results[3] && !results[4]);
+	}
+        @Test
+    public void testPokerEasyPoker(){
+				
+		int[] dice = new int[]{6, 6, 6, 6, 6};
+        boolean[] results = botPokerEasy.makeMove(dice, otherDice);
+		org.junit.Assert.assertTrue(!results[0] && !results[1] && !results[2] && !results[3] && !results[4]);
+	}
+   
 }
