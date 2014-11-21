@@ -11,9 +11,6 @@ public abstract class Poker extends DiceBot{
 		//zerowanie mapy oczko: powtorzenie
 		countDice = fillMap(dice);
 		
-		System.out.println(countDice);
-		
-		
 		if(countDice.containsValue(5))
 			figure = Figure.POKER;
 		else if(countDice.containsValue(4))

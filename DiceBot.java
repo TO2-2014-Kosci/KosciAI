@@ -94,9 +94,8 @@ public abstract class DiceBot {
             this.otherDice = otherDice;
         }
         @Override
-        public synchronized void run (){
-         
-            setOption(chooseOption(dice, otherDice)); 
+        public synchronized void run(){
+        		setOption(chooseOption(dice, otherDice)); 
         }
     }
 }
