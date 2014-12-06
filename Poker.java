@@ -1,7 +1,7 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Poker extends DiceBot{
+abstract class Poker extends Bot{
 
 	protected Map<Integer, Integer> countDice; //mapa oczko:ilosc powtorzen
 	public Figure figure; //aktualna figura

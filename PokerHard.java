@@ -1,19 +1,16 @@
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PokerHard extends Poker{
+class PokerHard extends Poker{
 
-	private boolean[] option = null;
+	//private final boolean[] option;
 	
 	
 	public PokerHard(){
-		option = new boolean[5];
 	}
 	
 	@Override
-	public boolean[] chooseOption(int[] dice, List<int[]> otherDice) {
+	public void chooseOption(int[] dice, List<int[]> otherDice) throws Exception{
 		int[] bestDice;
 		Figure bestFigure;
 		Figure curFigure;
@@ -21,8 +18,8 @@ public class PokerHard extends Poker{
 		this.dice = dice;
 		this.otherDice = otherDice;
 		
-		Map<Integer, Integer> curMap = new HashMap<Integer, Integer>();  //mapy oczko:powtorzenie, 
-		Map<Integer, Integer> bestMap = new HashMap<Integer, Integer>();  //potrzebne przy tych samych figurach
+		Map<Integer, Integer> curMap;  //mapy oczko:powtorzenie, 
+		Map<Integer, Integer> bestMap;  //potrzebne przy tych samych figurach
 		
 		int curToCompare = 0;   //oczko na kosci do porownania
 		int bestToCompare = 0;
@@ -33,17 +30,19 @@ public class PokerHard extends Poker{
 		bestMap = fillMap(bestDice);
 		
 		curFigure = checkFigure(dice);
-		System.out.println(curFigure);
+		//System.out.println(curFigure);
 
 		bestFigure = checkFigure(bestDice);
 		
 		for(int i = 0; i < option.length; i++)
 			option[i] = false;
 		
+		setOption(option);
+		
 		switch(curFigure){
 		
-			/*Metoda zwraca tablicê, w której wszystkie elementy s¹ FALSE, chyba ¿e któryœ przeciwnik 
-			 * ma wy¿szego pokera, wtedy wszystkie s¹ TRUE*/
+			/*Metoda zwraca tablicï¿½, w ktï¿½rej wszystkie elementy sï¿½ FALSE, chyba ï¿½e ktï¿½ryï¿½ przeciwnik 
+			 * ma wyï¿½szego pokera, wtedy wszystkie sï¿½ TRUE*/
 			case POKER:
 				
 				if(bestFigure == Figure.POKER){
@@ -63,9 +62,9 @@ public class PokerHard extends Poker{
 				}
 				break;
 		
-			/*Metoda zwraca tablicê, w której wartoœæ odpowiadaj¹ca koœci ró¿nej od 
-			 * pozosta³ych jest TRUE, reszta FALSE, chyba ¿e któryœ z przeciwników ma 
-			 * pokera z cyfr wy¿szych ni¿ nasza kareta, wtedy wszystkie wartoœci s¹ TRUE*/
+			/*Metoda zwraca tablicï¿½, w ktï¿½rej wartoï¿½ï¿½ odpowiadajï¿½ca koï¿½ci rï¿½nej od 
+			 * pozostaï¿½ych jest TRUE, reszta FALSE, chyba ï¿½e ktï¿½ryï¿½ z przeciwnikï¿½w ma 
+			 * pokera z cyfr wyï¿½szych niï¿½ nasza kareta, wtedy wszystkie wartoï¿½ci sï¿½ TRUE*/
 			case FOUR:
 				if(bestFigure == Figure.POKER){
 					for(int i = 1; i <= 6; i++){
@@ -89,9 +88,9 @@ public class PokerHard extends Poker{
 				}	
 				break;
 					
-			/*Metoda zwraca tablicê, w której wszystkie elementy s¹ FALSE jeœli przeciwnicy nie maj¹ 
-			 * wy¿szych figur. Jeœli maj¹, przerzuca parê, chyba ¿e ktoœ ma pokera z wy¿szych koœci 
-			 * ni¿ nasza trójka, wtedy przerzuca wszystkie.*/
+			/*Metoda zwraca tablicï¿½, w ktï¿½rej wszystkie elementy sï¿½ FALSE jeï¿½li przeciwnicy nie majï¿½ 
+			 * wyï¿½szych figur. Jeï¿½li majï¿½, przerzuca parï¿½, chyba ï¿½e ktoï¿½ ma pokera z wyï¿½szych koï¿½ci 
+			 * niï¿½ nasza trï¿½jka, wtedy przerzuca wszystkie.*/
 			case FULL:
 				if(bestFigure != Figure.POKER && bestFigure != Figure.FOUR && bestFigure != Figure.FULL){
 					break;
@@ -155,8 +154,8 @@ public class PokerHard extends Poker{
 				}
 				break;
 				
-			/*Jeœli nikt nie ma wy¿szej figury, metoda zwraca tablicê, w której wszystkie 
-			 * elementy s¹ FALSE. W przeciwnym wypadku zostawia najwy¿sz¹ koœæ, resztê przerzucaj¹c.*/	
+			/*Jeï¿½li nikt nie ma wyï¿½szej figury, metoda zwraca tablicï¿½, w ktï¿½rej wszystkie 
+			 * elementy sï¿½ FALSE. W przeciwnym wypadku zostawia najwyï¿½szï¿½ koï¿½ï¿½, resztï¿½ przerzucajï¿½c.*/	
 			case STRIT:
 			
 				if(bestFigure == Figure.STRIT){
@@ -193,9 +192,9 @@ public class PokerHard extends Poker{
 				
 			
 			
-			/*Metoda zwraca tablicê, w której wartoœci odpowiadaj¹ce koœciom z trójki 
-			 * maj¹ wartoœæ FALSE, a pozosta³ym TRUE, chyba ¿e któryœ z przeciwników ma 
-			 * pokera z cyfr wy¿szych ni¿ nasza trójka, wtedy wszystkie wartoœci s¹ TRUE*/
+			/*Metoda zwraca tablicï¿½, w ktï¿½rej wartoï¿½ci odpowiadajï¿½ce koï¿½ciom z trï¿½jki 
+			 * majï¿½ wartoï¿½ï¿½ FALSE, a pozostaï¿½ym TRUE, chyba ï¿½e ktï¿½ryï¿½ z przeciwnikï¿½w ma 
+			 * pokera z cyfr wyï¿½szych niï¿½ nasza trï¿½jka, wtedy wszystkie wartoï¿½ci sï¿½ TRUE*/
 			case THREE:
 				if(bestFigure == Figure.POKER){
 					for(int i = 1; i <= 6; i++){
@@ -219,12 +218,12 @@ public class PokerHard extends Poker{
 				}	
 				break;
 				
-			/*Metoda zwraca tablicê, w której wartoœæ odpowiadaj¹ca koœci bez pary jest TRUE, 
-			 * pozosta³e FALSE jeœli ¿aden z przeciwników nie ma pokera, czworki lub fulla 
-			 * W przeciwnym wypadku, jeœli wy¿ej wspomniany poker lub czworka sk³ada 
-			 * siê z cyfr wy¿szych ni¿ wyzsza z par, przerzuæ wszystkie. Jesli tylko wyzsze od
+			/*Metoda zwraca tablicï¿½, w ktï¿½rej wartoï¿½ï¿½ odpowiadajï¿½ca koï¿½ci bez pary jest TRUE, 
+			 * pozostaï¿½e FALSE jeï¿½li ï¿½aden z przeciwnikï¿½w nie ma pokera, czworki lub fulla 
+			 * W przeciwnym wypadku, jeï¿½li wyï¿½ej wspomniany poker lub czworka skï¿½ada 
+			 * siï¿½ z cyfr wyï¿½szych niï¿½ wyzsza z par, przerzuï¿½ wszystkie. Jesli tylko wyzsze od
 			 * jednej pary, przezuc wszystkie oprocz tej pary. 
-			 * Jeœli najwyzsza jest full, ale ani trojka, ani dwojka nie jest wyzsza od wyzszej pary
+			 * Jeï¿½li najwyzsza jest full, ale ani trojka, ani dwojka nie jest wyzsza od wyzszej pary
 			 * w fullu, przezuc wszystkie oprocz tej pary. Inaczej przezuc wszystkie*/
 			case TWO_PAIRS:
 				if(bestFigure == Figure.POKER || bestFigure == Figure.FOUR){
@@ -254,8 +253,8 @@ public class PokerHard extends Poker{
 						if((bestMap.get(i) == 3 || bestMap.get(i) == 2) && i > bestToCompare)
 							bestToCompare = i;
 					}
-					System.out.println(curToCompare);
-					System.out.println(bestToCompare);
+					//System.out.println(curToCompare);
+					//System.out.println(bestToCompare);
 					if(curToCompare > bestToCompare){
 						for(int i = 0; i < dice.length; i++){
 							if(curMap.get(dice[i]) == 1)
@@ -277,9 +276,9 @@ public class PokerHard extends Poker{
 				}
 				break;
 				
-			/*Metoda zwraca tablicê, w której wartoœci odpowiadaj¹ce koœciom z pary 
-			 * maj¹ wartoœæ FALSE, a pozosta³ym TRUE, chyba ¿e któryœ z przeciwników 
-			 * ma pokera z cyfr wy¿szych ni¿ nasza para, wtedy wszystkie wartoœci s¹ TRUE*/
+			/*Metoda zwraca tablicï¿½, w ktï¿½rej wartoï¿½ci odpowiadajï¿½ce koï¿½ciom z pary 
+			 * majï¿½ wartoï¿½ï¿½ FALSE, a pozostaï¿½ym TRUE, chyba ï¿½e ktï¿½ryï¿½ z przeciwnikï¿½w 
+			 * ma pokera z cyfr wyï¿½szych niï¿½ nasza para, wtedy wszystkie wartoï¿½ci sï¿½ TRUE*/
 			case PAIR:
 				if(bestFigure == Figure.POKER){
 					for(int i = 1; i <=6 ; i++){
@@ -306,7 +305,7 @@ public class PokerHard extends Poker{
 				}
 				break;
 				
-			/*Jeœli nikt nie ma uk³adu wy¿szego ni¿ strit, przerzuca jedynkê.*/
+			/*Jeï¿½li nikt nie ma ukï¿½adu wyï¿½szego niï¿½ strit, przerzuca jedynkï¿½.*/
 			case NOTHING:
 				if(bestFigure != Figure.FULL && bestFigure != Figure.FOUR && bestFigure != Figure.POKER){
 					for(int i = 0; i < dice.length; i++){
@@ -327,19 +326,19 @@ public class PokerHard extends Poker{
 				break;
 		}
 		
-				
-		optionToString(option);
+		setOption(option);
+		//optionToString(option);
 		
-		return option;
+	
 	}
 	
 	private int[] choseBestDice(List<int[]> otherDice){
 		int[] bestDice = otherDice.get(0);
-		int[] curDice = null;
+		int[] curDice;
 		Figure bestFigure = checkFigure(bestDice);
-		Figure curFigure = null;
-		Map<Integer, Integer> curMap = new HashMap<Integer, Integer>();  //mapy oczko:powtorzenie, 
-		Map<Integer, Integer> bestMap = new HashMap<Integer, Integer>();  //potrzebne przy tych samych figurach
+		Figure curFigure;
+		Map<Integer, Integer> curMap;  //mapy oczko:powtorzenie, 
+		Map<Integer, Integer> bestMap;  //potrzebne przy tych samych figurach
 		
 		
 		int curToCompare = 0;   //oczko na kosci do porownania
@@ -498,7 +497,7 @@ public class PokerHard extends Poker{
 						}
 						break;
 					case PAIR:
-						boolean samePair = false;
+			
 						for(int j = 6; j >= 1; j--){
 							if(curMap.get(j) == 2)
 								curToCompare = j;
@@ -547,10 +546,7 @@ public class PokerHard extends Poker{
 			
 		}
 		
-		
 		return bestDice;
 	}
 	
-	
-
 }

@@ -2,18 +2,15 @@ import java.util.List;
 
 
 
-public class PokerEasy extends Poker{
+class PokerEasy extends Poker{
 
-	private boolean[] option = null;
-	
-	
+		
 	public PokerEasy(){
-		option = new boolean[5];
 	}
 	
 	
 	@Override
-	public boolean[] chooseOption(int[] dice, List<int[]> otherDice) {
+	public void chooseOption(int[] dice, List<int[]> otherDice) throws Exception{
 		this.dice = dice;
 		
 	    
@@ -22,7 +19,8 @@ public class PokerEasy extends Poker{
 		for(int i = 0; i < option.length; i++)
 			option[i] = false;
 		
-		System.out.println(figure);
+		setOption(option);
+		//System.out.println(figure);
 		switch(figure){
 			//przy pokerze, streecie, fullu nic nie przerzucaj
 			case POKER:
@@ -50,11 +48,12 @@ public class PokerEasy extends Poker{
 				break;
 			default:
 				break;
+		
 		}
 		
-				
-		optionToString(option);
-		return option;
+		setOption(option);	
+		//optionToString(option);
+		
 	}
 
 }

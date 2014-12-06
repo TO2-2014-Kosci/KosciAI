@@ -2,17 +2,18 @@ import java.util.List;
 
 
 
-public class NPlusHard extends NPlus{
+class NPlusHard extends NPlus{
 
-	private static int matches = 0;
-	
 	public NPlusHard(){
-		options = initList();
+		allOptions = initList();
 	}
 	
 
 	@Override
-	public boolean[] chooseOption(int dice[], List<int[]> otherDice) {
+	public void chooseOption(int dice[], List<int[]> otherDice) throws Exception{
+		
+		
+		Thread.sleep(100);
 		
 		this.dice = dice;
 		int sumLeft;			//suma oczek zostawionych
@@ -25,12 +26,12 @@ public class NPlusHard extends NPlus{
 		int allThrows;
 		int currTraf;
 		
-		
-		for(int i = 0; i < options.size(); i++){  //petla po wszystkich opcjach
+	
+		for(int i = 0; i < allOptions.size(); i++){  //petla po wszystkich opcjach
 			
 			//wybranie opcji, wyliczenie sumy pozostalych i ile trzeba wyrzucic
-			option = options.get(i);
-			sumLeft = sumLeft(dice, option);
+			option = allOptions.get(i);
+			sumLeft = leftToScore(dice, option);
 			target = score - sumLeft; 
 	
 			//ile kostek do przerzucenia przy danej opcji
@@ -42,8 +43,8 @@ public class NPlusHard extends NPlus{
 			
 			//zapisanie do zmiennej traf ilosc trafien wyniku
 			countMatches(dicesToThrow, 0, target);
-			currTraf = NPlusHard.matches;
-			NPlusHard.matches = 0;
+			currTraf = matches;
+			matches = 0;
 			
 			//wyliczenia ilosci wszystkich rzutow dla danej opcji
 			allThrows = 1;
@@ -57,27 +58,16 @@ public class NPlusHard extends NPlus{
 			if(prob > bestProb){
 				bestProb = prob;
 				bestOption = option;
+				setOption(bestOption);
 			}
 		}
 		
-		System.out.println("NPlusHard: praw. = " +  Double.toString(bestProb));
-		optionToString(bestOption);
+		//System.out.println("NPlusHard: praw. = " +  Double.toString(bestProb));
+		//optionToString(bestOption);
 		
-		return bestOption;
 	}
 
-	//funkcja, ktora rekurencyjne zlicza wszystkie mozliwe rzuty, w zaleznosci od ilosc przerzucanych kosci,
-		//i inkrementuje zmienna matches, jezeli dana opcja pasuje
-		public static void countMatches(int _throws, int sum, int target){
-			if(_throws == 0){
-				if(sum == target)
-					NPlusHard.matches++;
-			}else{
-				for (int j = 1; j < 7; j++){
-					countMatches(_throws - 1, sum + j, target);
-				}
-			}
-		}
+	
 	
 	
 	

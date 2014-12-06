@@ -6,26 +6,25 @@ import org.junit.Test;
 
 public class TestKAI {
     
-	DiceBot botNPlusEasy;
-    DiceBot botNPlusHard; 
-    DiceBot botNMulEasy;
-    DiceBot botNMulHard;
-    DiceBot botPokerEasy;
-    DiceBot botPokerHard;
+	Bot botNPlusEasy;
+    Bot botNPlusHard; 
+    Bot botNMulEasy;
+    Bot botNMulHard;
+    Bot botPokerEasy;
+    Bot botPokerHard;
     public List<int[]> otherDice = new ArrayList<int[]>();
     
     public TestKAI(){
-    	BotFactory fabrykaBotow = new BotFactory();
-        botNPlusEasy = fabrykaBotow.createBot(GameType.NPLUS, 0, 1);
-        botNPlusHard = fabrykaBotow.createBot(GameType.NPLUS, 1, 5);
-    	botNMulEasy = fabrykaBotow.createBot(GameType.NMUL, 0, 4);
-    	botNMulHard = fabrykaBotow.createBot(GameType.NMUL, 1, 4);
-    	botPokerEasy = fabrykaBotow.createBot(GameType.POKER, 0, 4);
-    	botPokerHard = fabrykaBotow.createBot(GameType.POKER, 1, 4);   
+    	
+        botNPlusEasy = BotFactory.createBot(GameType.NPLUS, Level.EASY, 3);
+        botNPlusHard = BotFactory.createBot(GameType.NPLUS, Level.HARD, 1);
+    	botNMulEasy = BotFactory.createBot(GameType.NMUL, Level.EASY, 3);
+    	botNMulHard = BotFactory.createBot(GameType.NMUL, Level.HARD, 3);
+    	botPokerEasy = BotFactory.createBot(GameType.POKER, Level.EASY, 3);
+    	botPokerHard = BotFactory.createBot(GameType.POKER, Level.HARD, 3);
     }
         
-    
-	public static void main(String[] args){
+	public static void main(String[] args) throws Exception{
 		
 		TestKAI testkai = new TestKAI();
 		
@@ -34,7 +33,7 @@ public class TestKAI {
 		
         testkai.testNmulEasy();
 		testkai.testNmulHard();
-        
+      
 		testkai.testPokerEasyNothing();
         testkai.testPokerEasyPair();
 		testkai.testPokerEasyTwoPairs();
@@ -45,6 +44,7 @@ public class TestKAI {
 		testkai.testPokerEasyPoker();
 		
 		
+		System.out.println("Poker hard");
 		testkai.testPokerHardNothing();
 		testkai.testPokerHardPair();
 		testkai.testPokerHardTwoPairs();
@@ -53,11 +53,10 @@ public class TestKAI {
 		testkai.testPokerHardFull();
 		testkai.testPokerHardFour();
 		testkai.testPokerHardPoker();
-		
 	}
 	
-    @Test
-	public void testNPlusEasy(){
+	@Test
+	public void testNPlusEasy() throws Exception{
 				
 		int[] dice = new int[]{1, 1, 1, 1, 1};
         boolean[] results = new boolean[5];
@@ -70,8 +69,8 @@ public class TestKAI {
 									(!results[0] && !results[1] && !results[2] && !results[3] && results[4]));
 	}
     
-        @Test
-	public void testNplusHard(){
+		@Test
+	public void testNplusHard() throws Exception{
 				
 		int[] dice = new int[]{6, 6, 6, 6, 1};
         boolean[] results = new boolean[5];
@@ -81,7 +80,7 @@ public class TestKAI {
 	}
         
         @Test
-	public void testNmulEasy(){
+	public void testNmulEasy() throws Exception{
 				
 		int[] dice = new int[]{1, 2, 1, 3, 1};
         boolean[] results = new boolean[5];
@@ -92,7 +91,7 @@ public class TestKAI {
 								   (!results[0] && !results[1] && !results[2] && !results[3] && results[4]));
 	}
         @Test
-	public void testNmulHard(){
+	public void testNmulHard() throws Exception{
 				
 		int[] dice = new int[]{6, 6, 2, 6, 1};
         boolean[] results = new boolean[5];
@@ -103,28 +102,28 @@ public class TestKAI {
         
     
        @Test
-    public void testPokerEasyNothing(){
+    public void testPokerEasyNothing() throws Exception{
 				
 		int[] dice = new int[]{3, 6, 2, 4, 1};
         boolean[] results = botPokerEasy.makeMove(dice, otherDice);
 		org.junit.Assert.assertTrue(!results[0] && !results[1] && !results[2] && !results[3] && results[4]);
 	} 
         @Test
-    public void testPokerEasyPair(){
+    public void testPokerEasyPair() throws Exception{
 		
 		int[] dice = new int[]{3, 6, 2, 6, 1};
         boolean[] results = botPokerEasy.makeMove(dice, otherDice);
 		org.junit.Assert.assertTrue(results[0] && !results[1] && results[2] && !results[3] && results[4]);
 	} 
         @Test
-    public void testPokerEasyTwoPairs(){
+    public void testPokerEasyTwoPairs() throws Exception{
 		
 		int[] dice = new int[]{3, 1, 2, 3, 1};
         boolean[] results = botPokerEasy.makeMove(dice, otherDice);
 		org.junit.Assert.assertTrue(!results[0] && !results[1] && results[2] && !results[3] && !results[4]);
 	} 
         @Test
-    public void testPokerEasyThree(){
+    public void testPokerEasyThree() throws Exception{
 				
 		int[] dice = new int[]{3, 6, 6, 6, 1};
         boolean[] results = botPokerEasy.makeMove(dice, otherDice);
@@ -132,28 +131,28 @@ public class TestKAI {
 	}
         
         @Test
-    public void testPokerEasyStrit(){
+    public void testPokerEasyStrit() throws Exception{
 		
 		int[] dice = new int[]{1, 2, 4, 3, 5};
         boolean[] results = botPokerEasy.makeMove(dice, otherDice);
 		org.junit.Assert.assertTrue(!results[0] && !results[1] && !results[2] && !results[3] && !results[4]);
 	} 
         @Test
-    public void testPokerEasyFull(){
+    public void testPokerEasyFull() throws Exception{
 		
 		int[] dice = new int[]{3, 6, 3, 6, 3};
         boolean[] results = botPokerEasy.makeMove(dice, otherDice);
 		org.junit.Assert.assertTrue(!results[0] && !results[1] && !results[2] && !results[3] && !results[4]);
 	}
         @Test
-    public void testPokerEasyFour(){
+    public void testPokerEasyFour() throws Exception{
 		
 		int[] dice = new int[]{3, 6, 6, 6, 6};
         boolean[] results = botPokerEasy.makeMove(dice, otherDice);
 		org.junit.Assert.assertTrue(results[0] && !results[1] && !results[2] && !results[3] && !results[4]);
 	}
         @Test
-    public void testPokerEasyPoker(){
+    public void testPokerEasyPoker() throws Exception{
 				
 		int[] dice = new int[]{5, 5, 5, 5, 5};
         boolean[] results = botPokerEasy.makeMove(dice, otherDice);
@@ -161,7 +160,7 @@ public class TestKAI {
 	}
     
     @Test
-    public void testPokerHardNothing(){
+    public void testPokerHardNothing() throws Exception{
 		
 		int[] dice = new int[]{5, 1, 3, 4, 6};
 		otherDice.add(new int[]{1, 3, 2, 5, 4});
@@ -171,7 +170,7 @@ public class TestKAI {
 	}
     
     @Test
-    public void testPokerHardPair(){
+    public void testPokerHardPair() throws Exception{
 		
 		int[] dice = new int[]{5, 2, 3, 4, 2};
 		otherDice.add(new int[]{6, 1, 6, 6, 6});
@@ -181,7 +180,7 @@ public class TestKAI {
 	}
     
     @Test
-    public void testPokerHardTwoPairs(){
+    public void testPokerHardTwoPairs() throws Exception{
 		
 		int[] dice = new int[]{5, 2, 3, 5, 2};
 		otherDice.add(new int[]{3, 3, 4, 4, 3});
@@ -191,7 +190,7 @@ public class TestKAI {
 	}
     
     @Test
-    public void testPokerHardThree(){
+    public void testPokerHardThree() throws Exception{
 		
 		int[] dice = new int[]{5, 2, 2, 4, 2};
 		otherDice.add(new int[]{6, 1, 6, 6, 6});
@@ -201,7 +200,7 @@ public class TestKAI {
 	}
     
     @Test
-    public void testPokerHardStrit(){
+    public void testPokerHardStrit() throws Exception{
 				
 		int[] dice = new int[]{1, 2, 3, 4, 5};
 		otherDice.add(new int[]{2, 3, 4, 5, 6});
@@ -211,7 +210,7 @@ public class TestKAI {
 	}
     
     @Test
-    public void testPokerHardFull(){
+    public void testPokerHardFull() throws Exception{
 				
 		int[] dice = new int[]{3, 3, 3, 2, 2};
 		otherDice.add(new int[]{3, 3, 3, 1, 1});
@@ -222,7 +221,7 @@ public class TestKAI {
 	}
     
     @Test
-    public void testPokerHardFour(){
+    public void testPokerHardFour() throws Exception{
 				
 		int[] dice = new int[]{5, 5, 5, 5, 6};
 		otherDice.add(new int[]{6, 6, 1, 6, 6});
@@ -232,7 +231,7 @@ public class TestKAI {
 	}
     
     @Test
-    public void testPokerHardPoker(){
+    public void testPokerHardPoker() throws Exception{
 				
 		int[] dice = new int[]{5, 5, 5, 5, 5};
 		otherDice.add(new int[]{6, 6, 6, 6, 6});
@@ -241,4 +240,5 @@ public class TestKAI {
 		otherDice.removeAll(otherDice);
 	}
    
+	
 }

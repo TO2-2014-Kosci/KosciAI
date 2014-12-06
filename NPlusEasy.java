@@ -6,17 +6,15 @@ import java.util.TreeMap;
 
 
 
-public class NPlusEasy extends NPlus{
+class NPlusEasy extends NPlus{
 
-	private static int matches = 0;
-	
 	public NPlusEasy(){
-		options = initList();
+		allOptions = initList();
 	}
 	
 
 	@Override
-	public boolean[] chooseOption(int dice[], List<int[]> otherDice) {
+	public void chooseOption(int dice[], List<int[]> otherDice) throws Exception {
 		
 		HashMap<boolean[],Double> map = new HashMap<boolean[],Double>();
         ValueComparator bvc =  new ValueComparator(map);
@@ -25,6 +23,7 @@ public class NPlusEasy extends NPlus{
 		this.dice = dice;
 		int sumLeft;			//suma oczek zostawionych
 		double prob;
+		double bestProb = 0;
 		boolean[] option;
 		int target;				//jaka sume trzeba trafic pozostalymi koscmi
 		int dicesToThrow = 0;
@@ -32,11 +31,11 @@ public class NPlusEasy extends NPlus{
 		int currMatches;
 		
 		
-		for(int i = 0; i < options.size(); i++){  //petla po wszystkich opcjach
+		for(int i = 0; i < allOptions.size(); i++){  //petla po wszystkich opcjach
 			
 			//wybranie opcji, wyliczenie sumy pozostalych i ile trzeba wyrzucic
-			option = options.get(i);
-			sumLeft = sumLeft(dice, option);
+			option = allOptions.get(i);
+			sumLeft = leftToScore(dice, option);
 			target = score - sumLeft; 
 	
 			//ile kostek do przerzucenia przy danej opcji
@@ -48,8 +47,8 @@ public class NPlusEasy extends NPlus{
 			
 			//zapisanie do zmiennej traf ilosc trafien wyniku
 			countMatches(dicesToThrow, 0, target);
-			currMatches = NPlusEasy.matches;
-			NPlusEasy.matches = 0;
+			currMatches = matches;
+			matches = 0;
 			
 			//wyliczenia ilosci wszystkich rzutow dla danej opcji
 			allThrows = 1;
@@ -59,8 +58,12 @@ public class NPlusEasy extends NPlus{
 			
 			//obliczenie prawdopodobienstwa, i dodanie go do mapy
 			prob = (1.0 * currMatches) /allThrows;
+			if(prob > bestProb){
+				bestProb = prob;
+				setOption(option);
+			}
 			
-			map.put(options.get(i), prob);
+			map.put(allOptions.get(i), prob);
 		}
 		
 		//posortowanie mapy boolean[]:int
@@ -75,24 +78,10 @@ public class NPlusEasy extends NPlus{
 			iterator.next();
 		}
 		option = (boolean[])iterator.next();
+		setOption(option);
+		//System.out.println("NPlusEasy: praw. = " + map.get(option));
+		//optionToString(option);
 		
-		System.out.println("NPlusEasy: praw. = " + map.get(option));
-		optionToString(option);
-		
-		return option;
 	}
 
-	//funkcja, ktora rekurencyjne zlicza wszystkie mozliwe rzuty, w zaleznosci od ilosc przerzucanych kosci,
-		//i inkrementuje zmienna matches, jezeli dana opcja pasuje
-		public static void countMatches(int _throws, int sum, int target){
-			if(_throws == 0){
-				if(sum == target)
-					NPlusEasy.matches++;
-			}else{
-				for (int j = 1; j < 7; j++){
-					countMatches(_throws - 1, sum + j, target);
-				}
-			}
-		}
-		
 }
