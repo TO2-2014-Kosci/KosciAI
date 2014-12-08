@@ -1,3 +1,5 @@
+package DiceAI;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -6,70 +8,58 @@ import java.util.TreeMap;
 
 class NMulEasy extends NMul {
 
-    
-
     public NMulEasy() {
-        allOptions = initList();
+        allResults = initList();
     }
 
     @Override
-    public void chooseOption(int dice[], List<int[]> otherDice) throws Exception{
-    	
-   
+    public void chooseResult(int dice[], List<int[]> otherDice) {
+
         this.dice = dice;
 
-        HashMap<boolean[], Double> map = new HashMap<boolean[], Double>();
+        HashMap<boolean[], Double> map = new HashMap<>();
         ValueComparator bvc = new ValueComparator(map);
-        TreeMap<boolean[], Double> sorted_map = new TreeMap<boolean[], Double>(bvc);
+        TreeMap<boolean[], Double> sorted_map = new TreeMap<>(bvc);
 
-        int mulLeft;			//iloczyn oczek zostawionych
-        double prob;
-        boolean[] option;
-        double bestProb = 0;	//najlepsze prawdobodobienstwo
-        int target;				//jaka sume trzeba trafic pozostalymi koscmi
-        int dicesToThrow = 0;
-        int allThrows;
-        int currMatches;
+        int mulLeft;            //product of dice which are not going to be rethrown
+        double prob;            //propability of current option
+        double bestProb = 0;	//best propability
+        int target;		//what must be the product of rethrown dice
+        int diceToThrow;        //amount of dice to rethrow in current option
+        int allThrows;          //amount of possible results in current option
+        int currMatches;        //amount of matching results in current option
 
-        for (int i = 0; i < allOptions.size(); i++) {  //petla po wszystkich opcjach
-
-            //wybranie opcji, wyliczenie iloczynu pozostalych i ile trzeba wyrzucic
-            option = allOptions.get(i);
-            mulLeft = leftToScore(dice, option);
-
+        //iterating over all possible results
+        for (boolean[] rslt : allResults) {
+            result = rslt;
+            mulLeft = leftToScore(dice, result);
             target = score / mulLeft;
-
-            //ile kostek do przerzucenia przy danej opcji
-            dicesToThrow = 0;
-            for (int j = 0; j < option.length; j++) {
-                if (option[j]) {
-                    dicesToThrow++;
+            diceToThrow = 0;
+            for (int j = 0; j < result.length; j++) {
+                if (result[j]) {
+                    diceToThrow++;
                 }
             }
 
-            //zapisanie do zmiennej traf ilosc trafien wyniku
-            countMatches(dicesToThrow, 1, target);
+            countMatches(diceToThrow, 1, target);
             currMatches = matches;
             matches = 0;
 
-            //wyliczenia ilosci wszystkich rzutow dla danej opcji
             allThrows = 1;
-            for (int j = 0; j < dicesToThrow; j++) {
+            for (int j = 0; j < diceToThrow; j++) {
                 allThrows *= 6;
             }
 
-            //obliczenie prawdopodobienstwa, i zapisanie go jesli jest najlepsze z opcja
             prob = (1.0 * currMatches) / allThrows;
-            if(prob > bestProb){
-            	bestProb = prob;
-            	setOption(option);
+            //Checking if current option is the best
+            if (prob > bestProb) {
+                bestProb = prob;
+                setResult(result);
             }
-
-            map.put(allOptions.get(i), prob);
-
+            map.put(rslt, prob);
         }
 
-        //posortowanie mapy boolean[]:int
+        //sorting map
         sorted_map.putAll(map);
 
         Random generator = new Random();
@@ -79,12 +69,10 @@ class NMulEasy extends NMul {
         for (int j = 0; j < index && iterator.hasNext(); j++) {
             iterator.next();
         }
-        option = (boolean[]) iterator.next();
+        result = (boolean[]) iterator.next();
 
-        setOption(option);
-		//System.out.println("NMulEasy: praw. = " + map.get(option));
-        //optionToString(option);
-      
+        setResult(result);
+
     }
 
 }

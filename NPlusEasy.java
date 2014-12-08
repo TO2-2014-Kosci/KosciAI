@@ -1,87 +1,80 @@
+package DiceAI;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.TreeMap;
 
+class NPlusEasy extends NPlus {
 
+    public NPlusEasy() {
+        allResults = initList();
+    }
 
-class NPlusEasy extends NPlus{
+    @Override
+    public void chooseResult(int dice[], List<int[]> otherDice){
 
-	public NPlusEasy(){
-		allOptions = initList();
-	}
-	
+        HashMap<boolean[], Double> map = new HashMap<>();
+        ValueComparator bvc = new ValueComparator(map);
+        TreeMap<boolean[], Double> sorted_map = new TreeMap<>(bvc);
 
-	@Override
-	public void chooseOption(int dice[], List<int[]> otherDice) throws Exception {
-		
-		HashMap<boolean[],Double> map = new HashMap<boolean[],Double>();
-        ValueComparator bvc =  new ValueComparator(map);
-        TreeMap<boolean[],Double> sorted_map = new TreeMap<boolean[],Double>(bvc);
-		
-		this.dice = dice;
-		int sumLeft;			//suma oczek zostawionych
-		double prob;
-		double bestProb = 0;
-		boolean[] option;
-		int target;				//jaka sume trzeba trafic pozostalymi koscmi
-		int dicesToThrow = 0;
-		int allThrows;
-		int currMatches;
-		
-		
-		for(int i = 0; i < allOptions.size(); i++){  //petla po wszystkich opcjach
-			
-			//wybranie opcji, wyliczenie sumy pozostalych i ile trzeba wyrzucic
-			option = allOptions.get(i);
-			sumLeft = leftToScore(dice, option);
-			target = score - sumLeft; 
-	
-			//ile kostek do przerzucenia przy danej opcji
-			dicesToThrow = 0;
-			for(int j = 0; j < option.length; j++){
-				if(option[j])
-					dicesToThrow++;
-			}
-			
-			//zapisanie do zmiennej traf ilosc trafien wyniku
-			countMatches(dicesToThrow, 0, target);
-			currMatches = matches;
-			matches = 0;
-			
-			//wyliczenia ilosci wszystkich rzutow dla danej opcji
-			allThrows = 1;
-			for(int j = 0; j < dicesToThrow; j++){
-				allThrows *= 6;
-			}
-			
-			//obliczenie prawdopodobienstwa, i dodanie go do mapy
-			prob = (1.0 * currMatches) /allThrows;
-			if(prob > bestProb){
-				bestProb = prob;
-				setOption(option);
-			}
-			
-			map.put(allOptions.get(i), prob);
-		}
-		
-		//posortowanie mapy boolean[]:int
-		sorted_map.putAll(map);
-		
-		Random generator = new Random();
-		int index = generator.nextInt(3);
-		
-		Iterator<boolean[]> iterator = sorted_map.keySet().iterator();
-		
-		for(int j = 0; j < index && iterator.hasNext(); j++){
-			iterator.next();
-		}
-		option = (boolean[])iterator.next();
-		setOption(option);
-		//System.out.println("NPlusEasy: praw. = " + map.get(option));
-		//optionToString(option);
-		
-	}
+        this.dice = dice;
+        
+        int sumLeft;		//sum of dice which are not going to be rethrown
+        double bestProb = 0;	//best propability
+        double prob;            //propability of current option
+        int target;		//what must be the product of rethrown dice
+        int diceToThrow;        //amount of dice to rethrow in current option
+        int allThrows;          //amount of possible results in current option
+        int currMatches;        //amount of matching results in current option
+
+        //iterating over all possible results
+        for (boolean[] rslt : allResults) {
+            
+
+            result = rslt;
+            sumLeft = leftToScore(dice, result);
+            target = score - sumLeft;
+       
+            diceToThrow = 0;
+            for (int j = 0; j < result.length; j++) {
+                if (result[j]) {
+                    diceToThrow++;
+                }
+            }
+           
+            countMatches(diceToThrow, 0, target);
+            currMatches = matches;
+            matches = 0;
+          
+            allThrows = 1;
+            for (int j = 0; j < diceToThrow; j++) {
+                allThrows *= 6;
+            }
+       
+            prob = (1.0 * currMatches) / allThrows;
+            if (prob > bestProb) {
+                bestProb = prob;
+                setResult(result);
+            }
+            map.put(rslt, prob);
+        }
+
+        //Sorting map
+        sorted_map.putAll(map);
+
+        Random generator = new Random();
+        int index = generator.nextInt(3);
+
+        Iterator<boolean[]> iterator = sorted_map.keySet().iterator();
+
+        for (int j = 0; j < index && iterator.hasNext(); j++) {
+            iterator.next();
+        }
+        result = (boolean[]) iterator.next();
+        setResult(result);
+
+    }
 
 }

@@ -1,7 +1,6 @@
-public enum GameType{
-	NPLUS, NMUL, POKER
+package DiceAI;
+
+public enum GameType {
+
+    NPLUS, NMUL, POKER
 }
-
-
-
-

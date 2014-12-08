@@ -1,74 +1,66 @@
+package DiceAI;
+
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+class NPlusHard extends NPlus {
 
+    public NPlusHard() {
+        allResults = initList();
+    }
 
-class NPlusHard extends NPlus{
+    @Override
+    public void chooseResult(int dice[], List<int[]> otherDice) {
 
-	public NPlusHard(){
-		allOptions = initList();
-	}
-	
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(NPlusHard.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-	@Override
-	public void chooseOption(int dice[], List<int[]> otherDice) throws Exception{
-		
-		
-		Thread.sleep(100);
-		
-		this.dice = dice;
-		int sumLeft;			//suma oczek zostawionych
-		double bestProb = 0;	//najlepsze prawdobodobienstwo
-		boolean[] bestOption = new boolean[5];	//najlepsza opcja
-		double prob;
-		boolean[] option;
-		int target;				//jaka sume trzeba trafic pozostalymi koscmi
-		int dicesToThrow = 0;
-		int allThrows;
-		int currTraf;
-		
-	
-		for(int i = 0; i < allOptions.size(); i++){  //petla po wszystkich opcjach
-			
-			//wybranie opcji, wyliczenie sumy pozostalych i ile trzeba wyrzucic
-			option = allOptions.get(i);
-			sumLeft = leftToScore(dice, option);
-			target = score - sumLeft; 
-	
-			//ile kostek do przerzucenia przy danej opcji
-			dicesToThrow = 0;
-			for(int j = 0; j < option.length; j++){
-				if(option[j])
-					dicesToThrow++;
-			}
-			
-			//zapisanie do zmiennej traf ilosc trafien wyniku
-			countMatches(dicesToThrow, 0, target);
-			currTraf = matches;
-			matches = 0;
-			
-			//wyliczenia ilosci wszystkich rzutow dla danej opcji
-			allThrows = 1;
-			for(int j = 0; j < dicesToThrow; j++){
-				allThrows *= 6;
-			}
-			
-			//obliczenie prawdopodobienstwa, i zapisanie go jesli jest najlepsze z opcja
-			prob = (1.0 * currTraf) /allThrows;
-			
-			if(prob > bestProb){
-				bestProb = prob;
-				bestOption = option;
-				setOption(bestOption);
-			}
-		}
-		
-		//System.out.println("NPlusHard: praw. = " +  Double.toString(bestProb));
-		//optionToString(bestOption);
-		
-	}
+        this.dice = dice;
+        boolean[] option;
 
-	
-	
-	
-	
+        int sumLeft;		//sum of dice which are not going to be rethrown
+        double bestProb = 0;	//best propability
+        boolean[] bestResult;	//best option
+        double prob;            //propability of current option
+        int target;		//what must be the product of rethrown dice
+        int diceToThrow;        //amount of dice to rethrow in current option
+        int allThrows;          //amount of possible results in current option
+        int currMatches;        //amount of matching results in current option
+
+        //iterating over all possible results
+        for (boolean[] rslt : allResults) {
+
+            option = rslt;
+            sumLeft = leftToScore(dice, option);
+            target = score - sumLeft;
+
+            diceToThrow = 0;
+            for (int j = 0; j < option.length; j++) {
+                if (option[j]) {
+                    diceToThrow++;
+                }
+            }
+
+            countMatches(diceToThrow, 0, target);
+            currMatches = matches;
+            matches = 0;
+
+            allThrows = 1;
+            for (int j = 0; j < diceToThrow; j++) {
+                allThrows *= 6;
+            }
+
+            prob = (1.0 * currMatches) / allThrows;
+            if (prob > bestProb) {
+                bestProb = prob;
+                bestResult = option;
+                setResult(bestResult);
+            }
+        }
+    }
+
 }

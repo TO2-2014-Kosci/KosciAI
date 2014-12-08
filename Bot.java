@@ -1,67 +1,78 @@
+package DiceAI;
+
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public abstract class Bot {
-	
-	//opcja przezutu koscmi
-	protected boolean[] option = new boolean[5];
-	//kosci bota
-	protected int[] dice = null;
-	//kosci innych graczy
-	protected List<int[]> otherDice = null;
-	//czas na wykonanie ruchu, dla klasy wewnetrznej Time
-	private int time;
-	//cel, do ktorego dazymy
-	protected int score;
-	
-    protected boolean[] getOption(){
-    	return option;
+
+    //Dice chosen to rethrow
+    protected boolean[] result = new boolean[5];
+    //Bot's dice set
+    protected int[] dice = null;
+    //Other players' dice sets
+    protected List<int[]> otherDice = null;
+    //Maximum time for a move
+    protected int time;
+    //Score the bot is trying to reach
+    protected int score;
+
+    protected boolean[] getResult() {
+        return result;
     }
 
-    
-	
-    protected abstract void chooseOption(int dice[], List<int[]> otherDice) throws Exception;
-
-	
-	protected void setOption(boolean[] option){
-		this.option = option;
-	}
-	
-	public void setScore(int score){
-		this.score = score;
-	}
-	
-	protected void setTime(int time){
-		this.time = time;
-	}
-
-	
-	//opcja do stringa
-	protected void optionToString(boolean[] option){
-		for(int i = 0; i < option.length; i++){
-			if(option[i])
-				System.out.print(1);
-			else
-				System.out.print(0);
-		}
-		System.out.println();
-		System.out.println();
-	}
-	
-	/** 
-     * 
-     * @param dice array of 5 integers representing set of dice
-     * @param otherDice list of int[5] arrays representing dice sets of other players
-     * @return array of 5 booleans, true if dice should be rethrown, false otherwise
+    /**
+     * Sets 'result' field to the best possible value
+     *
+     * @param dice bot's dice set
+     * @param otherDice other player's dice sets
      */
-	public boolean[] makeMove() throws Exception{
-		ExecutorService executor = Executors.newSingleThreadExecutor();
+    protected abstract void chooseResult(int dice[], List<int[]> otherDice);
+
+    protected void setResult(boolean[] result) {
+        this.result = result;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    protected void setTime(int time) {
+        this.time = time;
+    }
+
+    //Prints result
+    protected void resultToString() {
+        for (int i = 0; i < result.length; i++) {
+            if (result[i]) {
+                System.out.print(1);
+            } else {
+                System.out.print(0);
+            }
+        }
+        System.out.println();
+        System.out.println();
+    }
+
+    /**
+     * Returns information which dice should be rethrown. Returns result before
+     * [time] seconds pass.
+     *
+     * @param dice array of 5 integers representing set of dice
+     * @param otherDice list of int[5] arrays representing dice sets of other
+     * players
+     * @return array of 5 booleans, true if dice should be rethrown, false
+     * otherwise
+     */
+    public boolean[] makeMove(int[] dice, List<int[]> otherDice) {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
         Future<boolean[]> future = executor.submit(new Move(dice, otherDice));
 
         try {
@@ -70,30 +81,32 @@ public abstract class Bot {
             System.out.println("Finished!");
         } catch (TimeoutException e) {
             System.out.println("Terminated!");
+        } catch (InterruptedException | ExecutionException ex) {
+            Logger.getLogger(Bot.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         executor.shutdownNow();
-        return option;
+        return result;
     }
-	
-	//KLASY WEWNETRZNE
-	
-    
-    class Move implements Callable<boolean[]>{
+
+    /**
+     * Thread responsible for calling chooseResult method.
+     */
+    class Move implements Callable<boolean[]> {
 
         int[] dice;
         List<int[]> otherDice;
-        
-        public Move(int[] dice, List<int[]> otherDice){
+
+        public Move(int[] dice, List<int[]> otherDice) {
             this.dice = dice;
             this.otherDice = otherDice;
         }
-        
+
         @Override
         public boolean[] call() throws Exception {
-            chooseOption(dice, otherDice);
-            return getOption();
+            chooseResult(dice, otherDice);
+            return getResult();
         }
-      
+
     }
 }
