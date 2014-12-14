@@ -1,7 +1,11 @@
+package to2.dice.ai.poker;
+
+import to2.dice.ai.Bot;
+
 import java.util.HashMap;
 import java.util.Map;
 
-abstract class Poker extends Bot {
+abstract class PokerBot extends Bot {
 
     protected Map<Integer, Integer> countDice; //map - number on dice : number of its occurences
     public Figure figure; //current figure
