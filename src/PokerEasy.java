@@ -1,5 +1,3 @@
-package DiceAI;
-
 import java.util.List;
 
 class PokerEasy extends Poker {

@@ -1,4 +1,4 @@
-package DiceAI;
+import to2.dice.game.GameType;
 
 public class BotFactory {
 
@@ -11,7 +11,6 @@ public class BotFactory {
      * its move
      * @return Bot
      */
-    @SuppressWarnings("null")
     public static Bot createBot(GameType type, Level level, int time) {
         Bot bot = null;
 

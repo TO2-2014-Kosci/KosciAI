@@ -1,5 +1,3 @@
-package DiceAI;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +44,7 @@ abstract class Poker extends Bot {
 
     //Filling a map
     protected Map<Integer, Integer> fillMap(int[] dice) {
-        Map<Integer, Integer> mapCountDice = new HashMap<>();
+        Map<Integer, Integer> mapCountDice = new HashMap<Integer, Integer>();
         for (int i = 1; i <= 6; i++) {
             mapCountDice.put(i, 0);
         }

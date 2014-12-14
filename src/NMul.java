@@ -1,5 +1,3 @@
-package DiceAI;
-
 public abstract class NMul extends NBot {
 
     @Override

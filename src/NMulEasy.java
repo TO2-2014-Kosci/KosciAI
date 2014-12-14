@@ -1,5 +1,3 @@
-package DiceAI;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -17,9 +15,9 @@ class NMulEasy extends NMul {
 
         this.dice = dice;
 
-        HashMap<boolean[], Double> map = new HashMap<>();
+        HashMap<boolean[], Double> map = new HashMap<boolean[], Double>();
         ValueComparator bvc = new ValueComparator(map);
-        TreeMap<boolean[], Double> sorted_map = new TreeMap<>(bvc);
+        TreeMap<boolean[], Double> sorted_map = new TreeMap<boolean[], Double>(bvc);
 
         int mulLeft;            //product of dice which are not going to be rethrown
         double prob;            //propability of current option

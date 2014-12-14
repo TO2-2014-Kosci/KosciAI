@@ -1,5 +1,3 @@
-package DiceAI;
-
 import java.util.List;
 
 class NMulHard extends NMul {

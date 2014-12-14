@@ -1,5 +1,3 @@
-package DiceAI;
-
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -11,8 +9,11 @@ import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public abstract class Bot {
 
+
+public abstract class Bot {
+	
+	
     //Dice chosen to rethrow
     protected boolean[] result = new boolean[5];
     //Bot's dice set
@@ -81,7 +82,7 @@ public abstract class Bot {
             System.out.println("Finished!");
         } catch (TimeoutException e) {
             System.out.println("Terminated!");
-        } catch (InterruptedException | ExecutionException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(Bot.class.getName()).log(Level.SEVERE, null, ex);
         }
 

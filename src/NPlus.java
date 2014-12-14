@@ -1,5 +1,3 @@
-package DiceAI;
-
 public abstract class NPlus extends NBot {
 
     @Override

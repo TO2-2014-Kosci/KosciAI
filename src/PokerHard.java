@@ -1,8 +1,5 @@
-package DiceAI;
-
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 class PokerHard extends Poker {
 
@@ -99,7 +96,7 @@ class PokerHard extends Poker {
                 } else if (bestFigure == Figure.FULL) {
                     boolean theBest = true;
                     for (int i = 1; i <= 6; i++) {
-                        if (!Objects.equals(curMap.get(i), bestMap.get(i))) {
+                        if (curMap.get(i) !=  bestMap.get(i)) {
                             theBest = false;
                         }
                     }

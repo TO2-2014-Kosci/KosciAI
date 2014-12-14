@@ -1,5 +1,3 @@
-package DiceAI;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -30,7 +28,7 @@ abstract class NBot extends Bot {
 
     //Initializes allResults list
     protected ArrayList<boolean[]> initList() {
-        ArrayList<boolean[]> tab = new ArrayList<>();
+        ArrayList<boolean[]> tab = new ArrayList<boolean[]>();
         for (int liczba = 0; liczba < 32; liczba++) {
             result = new boolean[5];
             //Adding one of options

@@ -1,9 +1,8 @@
-package DiceAI;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Test;
+
+import to2.dice.game.GameType;
 
 public class TestKAI {
 
@@ -13,7 +12,7 @@ public class TestKAI {
     Bot botNMulHard;
     Bot botPokerEasy;
     Bot botPokerHard;
-    public List<int[]> otherDice = new ArrayList<>();
+    public List<int[]> otherDice = new ArrayList<int[]>();
 
     public TestKAI() {
 
