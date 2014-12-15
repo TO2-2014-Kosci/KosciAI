@@ -1,3 +1,7 @@
+package to2.dice.ai.ngames.nplus;
+
+import to2.dice.ai.ngames.NBot;
+
 public abstract class NPlus extends NBot {
 
     @Override

@@ -1,3 +1,7 @@
+package to2.dice.ai.ngames.nmul;
+
+import to2.dice.ai.ngames.NBot;
+
 public abstract class NMul extends NBot {
 
     @Override

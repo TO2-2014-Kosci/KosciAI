@@ -1,7 +1,9 @@
+package to2.dice.ai.poker;
+
 import java.util.List;
 import java.util.Map;
 
-class PokerHard extends Poker {
+public class PokerHard extends PokerBot {
 
     public PokerHard() {
     }

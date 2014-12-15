@@ -1,9 +1,13 @@
+package to2.dice.ai.ngames;
+
+import to2.dice.ai.Bot;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-abstract class NBot extends Bot {
+public abstract class NBot extends Bot {
 
     //Amount of matches for current option
     protected int matches = 0;
@@ -41,7 +45,7 @@ abstract class NBot extends Bot {
     }
 
     //Class required for sorting possible results
-    class ValueComparator implements Comparator<boolean[]> {
+    public class ValueComparator implements Comparator<boolean[]> {
 
         Map<boolean[], Double> base;
 

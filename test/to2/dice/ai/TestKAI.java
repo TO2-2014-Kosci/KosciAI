@@ -1,7 +1,10 @@
+package to2.dice.ai;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
 
+import org.junit.Test;
+import to2.dice.game.BotLevel;
 import to2.dice.game.GameType;
 
 public class TestKAI {
@@ -16,12 +19,12 @@ public class TestKAI {
 
     public TestKAI() {
 
-        botNPlusEasy = BotFactory.createBot(GameType.NPLUS, Level.EASY, 3);
-        botNPlusHard = BotFactory.createBot(GameType.NPLUS, Level.HARD, 1);
-        botNMulEasy = BotFactory.createBot(GameType.NMUL, Level.EASY, 3);
-        botNMulHard = BotFactory.createBot(GameType.NMUL, Level.HARD, 3);
-        botPokerEasy = BotFactory.createBot(GameType.POKER, Level.EASY, 3);
-        botPokerHard = BotFactory.createBot(GameType.POKER, Level.HARD, 3);
+        botNPlusEasy = BotFactory.createBot(GameType.NPLUS, BotLevel.EASY, 3);
+        botNPlusHard = BotFactory.createBot(GameType.NPLUS, BotLevel.HARD, 1);
+        botNMulEasy = BotFactory.createBot(GameType.NMUL, BotLevel.EASY, 3);
+        botNMulHard = BotFactory.createBot(GameType.NMUL, BotLevel.HARD, 3);
+        botPokerEasy = BotFactory.createBot(GameType.POKER, BotLevel.EASY, 3);
+        botPokerHard = BotFactory.createBot(GameType.POKER, BotLevel.HARD, 3);
     }
 
     public static void main(String[] args) throws Exception {
@@ -43,7 +46,7 @@ public class TestKAI {
         testkai.testPokerEasyFour();
         testkai.testPokerEasyPoker();
 
-        System.out.println("Poker hard");
+        System.out.println("to2.dice.ai.poker.Poker hard");
         testkai.testPokerHardNothing();
         testkai.testPokerHardPair();
         testkai.testPokerHardTwoPairs();

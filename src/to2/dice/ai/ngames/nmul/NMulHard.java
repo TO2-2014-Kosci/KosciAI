@@ -1,6 +1,8 @@
+package to2.dice.ai.ngames.nmul;
+
 import java.util.List;
 
-class NMulHard extends NMul {
+public class NMulHard extends NMul {
 
     public NMulHard() {
         allResults = initList();

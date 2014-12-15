@@ -1,8 +1,10 @@
+package to2.dice.ai.ngames.nplus;
+
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-class NPlusHard extends NPlus {
+public class NPlusHard extends NPlus {
 
     public NPlusHard() {
         allResults = initList();
