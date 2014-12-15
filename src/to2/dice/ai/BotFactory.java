@@ -14,7 +14,7 @@ public class BotFactory {
     /**
      * Creates a bot
      *
-     * @param type type of game - N+, N* or to2.dice.ai.poker.Poker
+     * @param type type of game - N+, N* or Poker
      * @param level level - easy or hard
      * @param time determines how much time in seconds the bot has got to make
      * its move
