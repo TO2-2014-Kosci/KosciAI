@@ -59,8 +59,8 @@ public abstract class Bot {
                 System.out.print(0);
             }
         }
-        System.out.println();
-        System.out.println();
+//        System.out.println();
+//        System.out.println();
     }
 
     /**
@@ -78,11 +78,11 @@ public abstract class Bot {
         Future<boolean[]> future = executor.submit(new Move(dice, otherDice));
 
         try {
-            System.out.println("Started..");
+//            System.out.println("Started..");
             future.get(time, TimeUnit.SECONDS);
-            System.out.println("Finished!");
+//            System.out.println("Finished!");
         } catch (TimeoutException e) {
-            System.out.println("Terminated!");
+//            System.out.println("Terminated!");
         } catch (Exception ex) {
             Logger.getLogger(Bot.class.getName()).log(Level.SEVERE, null, ex);
         }
