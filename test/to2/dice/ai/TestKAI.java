@@ -2,8 +2,10 @@ package to2.dice.ai;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.junit.Test;
+
 import to2.dice.game.BotLevel;
 import to2.dice.game.GameType;
 
@@ -20,7 +22,7 @@ public class TestKAI {
     public TestKAI() {
 
         botNPlusEasy = BotFactory.createBot(GameType.NPLUS, BotLevel.EASY, 3);
-        botNPlusHard = BotFactory.createBot(GameType.NPLUS, BotLevel.HARD, 1);
+        botNPlusHard = BotFactory.createBot(GameType.NPLUS, BotLevel.HARD, 3);
         botNMulEasy = BotFactory.createBot(GameType.NMUL, BotLevel.EASY, 3);
         botNMulHard = BotFactory.createBot(GameType.NMUL, BotLevel.HARD, 3);
         botPokerEasy = BotFactory.createBot(GameType.POKER, BotLevel.EASY, 3);
@@ -31,7 +33,10 @@ public class TestKAI {
 
         TestKAI testkai = new TestKAI();
 
-        testkai.testNPlusEasy();
+        testkai.testujNPlus();
+        testkai.testujNMull();
+        
+        /*testkai.testNPlusEasy();
         testkai.testNplusHard();
 
         testkai.testNmulEasy();
@@ -54,9 +59,155 @@ public class TestKAI {
         testkai.testPokerHardStrit();
         testkai.testPokerHardFull();
         testkai.testPokerHardFour();
-        testkai.testPokerHardPoker();
+        testkai.testPokerHardPoker();*/
+    }
+    
+    public void testujNPlus() throws Exception{
+    	
+    	int iloscProb = 100;
+    	Random generator = new Random();
+    	boolean[] results;
+    	int probaEasy = 0;
+    	int probaHard = 0;
+    	
+    	int easyWins = 0;
+    	int hardWins = 0;
+    	int remis = 0;
+    	
+    	for(int j = 0; j < iloscProb; j++){
+    		probaEasy = 0;
+    		probaHard = 0;
+    		int score = generator.nextInt(26) + 5;
+    		int[] dice = new int[5];
+    		for(int i = 0; i < dice.length; i++)
+    			dice[i] = generator.nextInt(6) + 1;
+	    	int[] tmpDiceEasy = dice.clone();
+	    	int[] tmpDiceHard = dice.clone();
+	    	
+	    	botNPlusEasy.setScore(score);
+	    	botNPlusHard.setScore(score);
+	    
+	    	while(wygranaNPlus(tmpDiceEasy, score) == false){
+	    		
+	    		results = botNPlusEasy.makeMove(tmpDiceEasy, otherDice);
+	    		for(int i = 0; i < results.length; i++){
+	    			if(results[i])
+	    				tmpDiceEasy[i] = generator.nextInt(6) + 1;
+	    		}
+	    		probaEasy++;
+	    	}
+	    	
+	    	while(wygranaNPlus(tmpDiceHard, score) == false){
+	    		
+	    		results = botNPlusHard.makeMove(tmpDiceHard, otherDice);
+	    		for(int i = 0; i < results.length; i++){
+	    			if(results[i])
+	    				tmpDiceHard[i] = generator.nextInt(6) + 1;
+	    		}
+	    		probaHard++;
+	    	}
+	    	
+	    	if(probaEasy < probaHard)
+	    		easyWins++;
+	    	else if(probaEasy == probaHard)
+	    		remis++;
+	    	else if(probaEasy > probaHard)
+	    		hardWins++;
+    	}
+    	
+    	System.out.println("Easy Wins = " + 100.0 * (1.0 * easyWins/iloscProb) + "%");
+    	System.out.println("Hard Wins = " + 100.0 * (1.0 * hardWins/iloscProb) + "%");
+    		
     }
 
+    
+    public void testujNMull() throws Exception{
+    	
+    	int iloscProb = 100;
+    	Random generator = new Random();
+    	boolean[] results;
+    	int probaEasy = 0;
+    	int probaHard = 0;
+    	
+    	int easyWins = 0;
+    	int hardWins = 0;
+    	int remis = 0;
+    	
+    	for(int j = 0; j < iloscProb; j++){
+    		int score = 1;
+    		probaEasy = 0;
+    		probaHard = 0;
+    		
+    		for(int i = 0; i < 5; i++){
+    			score *= generator.nextInt(6) + 1;
+    		}
+    		
+    		int[] dice = new int[5];
+    		for(int i = 0; i < dice.length; i++)
+    			dice[i] = generator.nextInt(6) + 1;
+	    	int[] tmpDiceEasy = dice.clone();
+	    	int[] tmpDiceHard = dice.clone();
+	    	
+	    	botNMulEasy.setScore(score);
+	    	botNMulHard.setScore(score);
+	    
+	    	while(wygranaNMul(tmpDiceEasy, score) == false){
+	    		
+	    		results = botNMulEasy.makeMove(tmpDiceEasy, otherDice);
+	    		for(int i = 0; i < results.length; i++){
+	    			if(results[i])
+	    				tmpDiceEasy[i] = generator.nextInt(6) + 1;
+	    		}
+	    		probaEasy++;
+	    	}
+	    
+	    	while(wygranaNMul(tmpDiceHard, score) == false){
+	    	
+	    		results = botNMulHard.makeMove(tmpDiceHard, otherDice);
+	    		
+	    		for(int i = 0; i < results.length; i++){
+	    			if(results[i])
+	    				tmpDiceHard[i] = generator.nextInt(6) + 1;
+	    		}
+	    		
+	    		
+	    		probaHard++;
+	    	}
+	    	
+	    	if(probaEasy < probaHard)
+	    		easyWins++;
+	    	else if(probaEasy == probaHard)
+	    		remis++;
+	    	else if(probaEasy > probaHard)
+	    		hardWins++;
+    	}
+    	
+    	System.out.println("Easy Wins = " + 100.0 * (1.0 * easyWins/iloscProb) + "%");
+    	System.out.println("Hard Wins = " + 100.0 * (1.0 * hardWins/iloscProb) + "%");
+    		
+    }
+    public boolean wygranaNPlus(int[] dice, int score){
+    	int suma = 0;
+    	for(int i = 0; i < dice.length; i++)
+    		suma += dice[i];
+    	if(score == suma)
+    		return true;
+    	else
+    		return false;
+    	
+    }
+    
+    public boolean wygranaNMul(int[] dice, int score){
+    	int licznik = 1;
+    	for(int i = 0; i < dice.length; i++)
+    		licznik *= dice[i];
+    	if(score == licznik)
+    		return true;
+    	else
+    		return false;
+    	
+    }
+    
     @Test
     public void testNPlusEasy() throws Exception {
 
