@@ -54,7 +54,7 @@ public class NPlusEasy extends NPlus {
             }
        
             prob = (1.0 * currMatches) / allThrows;
-            if (prob > bestProb) {
+            if (Double.compare(prob, bestProb) == 1) {
                 bestProb = prob;
                 setResult(result);
             }
