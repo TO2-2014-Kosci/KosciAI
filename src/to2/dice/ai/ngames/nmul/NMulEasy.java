@@ -52,7 +52,7 @@ public class NMulEasy extends NMul {
 
             prob = (1.0 * currMatches) / allThrows;
             //Checking if current option is the best
-            if (prob > bestProb) {
+            if (Double.compare(prob, bestProb) == 1) {
                 bestProb = prob;
                 setResult(result);
             }
