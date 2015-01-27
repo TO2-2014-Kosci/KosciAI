@@ -15,20 +15,21 @@ public class NMulHard extends NMul {
 
         int mulLeft;		//product of dice which are not going to be rethrown
         double bestProb = 0;	//best propability
-        boolean[] bestResult;	//best option
-        double prob;            //propability of current option
+        boolean[] bestResult;	//best result
+        double prob = 0;            //propability of current result
         int target;		//what must be the product of rethrown dice
-        int diceToThrow;        //amount of dice to rethrow in current option
-        int allThrows;          //amount of possible results in current option
-        int currMatches;        //amount of matching results in current option
-
+        int diceToThrow;        //amount of dice to rethrow in current result
+        int allThrows;          //amount of possible results in current result
+        int currMatches;        //amount of matching results in current result
+        boolean[] result;
+        
         //iterating over all possible results
         for (boolean[] rslt : allResults) {
 
             result = rslt;
             mulLeft = leftToScore(dice, result);
 
-            //Checking if current option allows reaching target
+            //Checking if current result allows reaching target
             if (score % mulLeft == 0) {
                 target = score / mulLeft;
 
@@ -49,8 +50,9 @@ public class NMulHard extends NMul {
                 }
 
                 prob = (1.0 * currMatches) / allThrows;
+               
 
-                if (prob > bestProb) {
+                if (Double.compare(prob, bestProb) == 1) {
                     bestProb = prob;
                     bestResult = result;
                     setResult(bestResult);
