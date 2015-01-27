@@ -1,8 +1,6 @@
 package to2.dice.ai.ngames.nplus;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class NPlusHard extends NPlus {
 
@@ -13,11 +11,11 @@ public class NPlusHard extends NPlus {
     @Override
     public void chooseResult(int dice[], List<int[]> otherDice) {
 
-        try {
+        /*try {
             Thread.sleep(100);
         } catch (InterruptedException ex) {
             Logger.getLogger(NPlusHard.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
 
         this.dice = dice;
         boolean[] option;
@@ -55,7 +53,7 @@ public class NPlusHard extends NPlus {
             }
 
             prob = (1.0 * currMatches) / allThrows;
-            if (prob > bestProb) {
+            if (Double.compare(prob , bestProb) == 1) {
                 bestProb = prob;
                 bestResult = option;
                 setResult(bestResult);
